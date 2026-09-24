@@ -1,65 +1,69 @@
 # Sistema de recomendação de cursos de especialização
 
-## 1) Descrição do sistema
+## 1. Introdução
 
-Este sistema tem como objetivo apoiar candidatos a cursos de especialização na escolha do melhor programa, com base em perfil, objetivos de carreira, disponibilidade, orçamento e contexto de mercado. A ideia é reduzir a desistência e o abandono por meio de recomendações mais alinhadas ao candidato, evitando que ele escolha um curso por influência superficial, falta de informação ou excesso de opções.
+Este projeto documenta uma proposta de arquitetura para um sistema de recomendação de cursos de especialização orientado ao apoio à decisão do candidato. A solução foi concebida para reduzir a incerteza na escolha de programas de pós-graduação, especialização ou formação contínua, considerando perfil do usuário, objetivos profissionais, orçamento, disponibilidade e contexto de mercado.
 
-O sistema funciona como um assistente de decisão para estudantes ou profissionais que querem evoluir em carreira, trocar de área ou aprofundar uma especialização sem assumir riscos desnecessários. Ele agrega dados do perfil do usuário, preferências acadêmicas, histórico profissional, metas de carreira, custo e disponibilidade, além de informações sobre cursos disponíveis, avaliações e demanda de mercado.
+A proposta não se configura como uma plataforma completa de ensino, mas como um sistema de apoio à decisão, com foco em recomendação explicável, comparação entre alternativas e redução do risco de desistência ou abandono por escolha inadequada.
 
-### Escopo
+## 2. Descrição do sistema
+
+O sistema tem como objetivo recomendar cursos de especialização com base no perfil do usuário e em indicadores de mercado. O candidato informa dados como experiência profissional, objetivos de carreira, disponibilidade, orçamento e nível de interesse. O sistema combina essas informações com um catálogo de cursos e dados de empregabilidade para sugerir alternativas com justificativas e ranking sensível ao contexto.
+
+### 2.1 Escopo
 
 - Cadastro e atualização de perfil do usuário
-- Coleta de objetivos de carreira e grau de urgência
+- Coleta de objetivos de carreira, disponibilidade, orçamento e contexto de decisão
 - Sugestão de cursos com ranking e justificativas
-- Comparativo entre cursos por custo, duração, carga horária, modalidade e reputação
-- Acompanhamento do processo de decisão e inscrição
-- Sugestões de próximos passos para quem está indeciso
+- Comparação entre cursos por custo, duração, modalidade, reputação e alinhamento com metas profissionais
+- Acompanhamento do processo de decisão e refinamento de recomendações
+- Suporte administrativo para curadoria do catálogo e das regras de recomendação
 
-### Nível da visão
+### 2.2 Nível de visão
 
-A visão principal é de um sistema de apoio à decisão orientado por dados e IA. Não se trata de uma plataforma de ensino completa, e sim de um mecanismo de recomendação e orientação que pode ser integrado a um portal acadêmico, consultoria de formação ou canal de relacionamento com instituições.
+A visão arquitetural é de um sistema de apoio à decisão orientado por dados e IA, com elementos de negócio, regras e dados estruturados. O objetivo é manter a recomendação útil, transparente e explicável, com apoio humano na decisão final.
 
-### Limites e responsabilidades
+### 2.3 Limites e responsabilidades
 
-O sistema deve ser responsável por:
+O sistema deve:
 
 - recomendar cursos com base em regras e dados estruturados
 - explicar por que um curso foi sugerido
 - indicar trade-offs entre opções
-- permitir a revisão manual e a decisão humana
+- permitir revisão manual e decisão humana
 
 O sistema não deve:
 
 - substituir a escolha final do estudante
-- garantir matrícula ou aprovação em curso
+- garantir matrícula, aprovação ou empregabilidade
 - assumir responsabilidade legal por decisões educacionais
-- atuar como único critério para formação profissional sem contexto humano
+- funcionar como único critério para formação profissional sem contexto humano
 
-### Integrações
+### 2.4 Integrações
 
 - Catálogo de cursos de instituições parceiras
-- Base de dados de mercado de trabalho (salário, demanda, competências em alta)
+- Base de dados de mercado de trabalho com salário, demanda e competências em alta
 - Sistema de autenticação e perfil do usuário
 - Painel administrativo para gestão de cursos e regras de recomendação
-- Eventual integração com e-mail, WhatsApp ou CRM para acompanhamento
+- Integrações opcionais com e-mail, WhatsApp ou CRM para acompanhamento
 
-### Restrições e lacunas
+### 2.5 Restrições e lacunas
 
 - Não há garantia de atualização em tempo real do mercado de trabalho
-- Os dados de cursos podem variar em qualidade e formato entre instituições
-- A recomendação precisa lidar com dados incompletos do usuário
-- Pode haver conflito entre objetivo de carreira e preferências pessoais (ex.: custo vs prestígio)
-- O sistema não resolve problemas de acessibilidade, ritmo de estudo e perfil individual de aprendizagem sem dados adicionais
+- Dados de cursos podem variar em qualidade, formato e consistência entre instituições
+- A recomendação deve lidar com dados incompletos do usuário
+- Pode haver conflito entre objetivo de carreira e preferência pessoal
+- O sistema não resolve automaticamente problemas de acessibilidade, ritmo de estudo e perfil individual de aprendizagem sem dados adicionais
 
-## 2) Visão do sistema em linguagem natural
+## 3. Visão do sistema em linguagem natural
 
-O sistema funciona como um “consultor de formação” digital. Um usuário informa seu perfil, os objetivos desejados e o contexto de decisão. O sistema combina isso com dados do catálogo de cursos e indicadores de mercado para gerar recomendações ordenadas por relevância.
+O sistema funciona como um consultor digital de formação. Um usuário informa seu perfil e seus objetivos. O sistema combina esses dados com um catálogo de cursos, indicadores de mercado e regras de negócio para gerar uma recomendação ordenada por relevância.
 
-A experiência essencial é: a pessoa entra no sistema, responde algumas perguntas, recebe recomendações, compara opções e pode receber orientações em linguagem natural sobre por que um curso é mais adequado para ela. Essa abordagem reduz a incerteza e aumenta a confiança na escolha.
+A experiência essencial envolve: cadastro do perfil, comparação de opções, explicação dos critérios e refinamento incremental da decisão. Essa abordagem reduz a incerteza e aumenta a confiança do usuário ao escolher um curso.
 
-O sistema tem duas camadas principais: uma camada de dados e regras de negócio e uma camada de experiência orientada por IA. A primeira organiza o catálogo, perfil, histórico e métricas; a segunda interpreta o contexto do usuário e entrega uma recomendação útil e explicável.
+A arquitetura divide-se em duas camadas principais: uma camada de dados e regras de negócio e uma camada de experiência orientada por IA. A primeira organiza o catálogo, o perfil, o histórico e os indicadores; a segunda interpreta o contexto do usuário e entrega uma recomendação útil e explicável.
 
-## 3) Diagrama estrutural (Mermaid)
+## 4. Diagrama estrutural (Mermaid)
 
 Abaixo está uma visão estrutural inspirada em containers, com foco na separação entre a experiência do usuário, o motor de decisão, os dados e a gestão do catálogo.
 
@@ -114,16 +118,16 @@ flowchart LR
     ADM --> DEC
 ```
 
-### Ajustes que fiz ao diagrama gerado
+### Ajustes ao diagrama gerado
 
-- Mantive uma visão simples e adequada ao objetivo de descoberta, em vez de um desenho excessivamente detalhado de microserviços.
-- Incluí explicitamente a camada de “dados de mercado”, porque ela é crucial para decidir entre cursos com custo, retorno e demanda diferentes.
-- Separei o componente de explicação e ranking do componente de API, para deixar claro que a recomendação não é apenas um filtro bruto, mas uma decisão com interpretação.
-- Dei destaque ao papel do administrador, que participa da curadoria do catálogo e da evolução das regras de decisão.
+- Mantive uma visão simples e adequada ao objetivo de discovery, sem detalhamento excessivo de microserviços.
+- Incluí explicitamente a camada de dados de mercado, porque ela é crucial para ponderar custo, retorno e demanda.
+- Separei o componente de explicação do componente de API, para deixar claro que a recomendação não é um filtro bruto, mas uma decisão interpretada e explicada.
+- Destaquei o papel do administrador no curadoria do catálogo e na evolução das regras de decisão.
 
-## 4) Diagrama comportamental (Mermaid)
+## 5. Diagrama comportamental (Mermaid)
 
-A seguir, um diagrama de sequência ilustrando uma jornada crítica: um candidato busca uma recomendação para um curso de especialização com base em objetivo, orçamento e disponibilidade.
+A seguir, um diagrama de sequência ilustrando uma jornada crítica: um candidato busca uma recomendação para um curso de especialização com base em objetivos, orçamento e disponibilidade.
 
 ```mermaid
 sequenceDiagram
@@ -152,46 +156,26 @@ sequenceDiagram
     P-->>C: Entrega decisão final com contexto
 ```
 
-### Ajustes no comportamento
+### Ajustes ao comportamento
 
-- A sequência foi desenhada para refletir uma decisão humana e iterativa, não um processo instantâneo. O usuário pode refinar escolhas e receber um novo ranking.
-- Mantive a camada de explicação separada do motor de ranking, para tornar a recomendação mais transparente e útil para a decisão.
-- O fluxo mostra que a recomendação depende de múltiplos dados, e não de um único critério como “curso mais popular”.
+- O fluxo foi desenhado como uma decisão humana e iterativa, não como um processo instantâneo.
+- A explicação foi mantida separada do motor de ranking para tornar a recomendação mais transparente.
+- O processo demonstra que a recomendação depende de múltiplos dados, e não de um único critério como popularidade ou preço isolado.
 
-## 5) Decisões e ajustes em relação ao modelo gerado
+## 6. Decisões e ajustes em relação ao modelo gerado
 
-O modelo foi útil para formar a base da arquitetura e identificou corretamente os elementos centrais:
+O modelo gerado foi útil para estruturar a base da arquitetura e identificou corretamente elementos centrais como usuário, catálogo de cursos, dados de mercado, API de recomendação e interface de experiência.
 
-- usuário
-- catálogo de cursos
-- dados de mercado
-- API de recomendação
-- interface de experiência
+No entanto, foi necessário ajustar alguns pontos para aproximar a solução da realidade do uso:
 
-No entanto, precisei ajustar alguns pontos para aproximar a solução da realidade de uso:
+1. A recomendação precisa ser explicável, não apenas classificada. Isso melhora confiança e reduz indecisão.
+2. O sistema não é apenas um motor de IA; depende de catalogação, regras e dados estruturados para operar de forma previsível.
+3. O papel administrativo é essencial para curadoria do catálogo e ajuste das regras de recomendação.
+4. O sistema deve permitir refinamento incremental da decisão, conforme o usuário ajusta objetivos, orçamento e disponibilidade.
 
-1. A recomendação precisa ser explicável, não apenas “classificada”. Essa é uma exigência importante para ganhar confiança do usuário.
-2. O sistema não é apenas um motor de IA; precisa de catalogação, regras e dados estruturados para funcionar de forma previsível.
-3. A presença de um papel administrativo foi importante, porque não é qualquer pessoa que deve decidir sobre cursos permitidos ou regras de recomendação.
-4. O sistema deve permitir refinamento incremental: o usuário pode mudar objetivo, orçamento, disponibilidade ou foco profissional e receber uma nova recomendação.
+## 7. Requisitos funcionais
 
-## 6) O que faltaria para um agente construir o sistema sem inventar decisões
-
-Para que um agente de desenvolvimento implementasse o sistema com aderência à arquitetura documentada, faltariam alguns pontos importantes:
-
-- definição do público alvo: estudantes de pós-graduação, profissionais em transição ou candidatos em geral
-- regras de priorização: quais critérios pesam mais (preço, objetivo de carreira, reputação, tempo de conclusão, disciplina etc.)
-- modelo de dados do usuário e do curso
-- critérios de atualização do catálogo e do mercado
-- regras de privacidade, consentimento e armazenamento de dados sensíveis
-- requisitos de autenticação, autorização e roles administrativas
-- definição da experiência de IA: recomendações com justificativa, comparação de alternativas ou conversas guiadas
-- arquitetura de integração com fontes de dados externas e indicadores de mercado
-- critérios de usabilidade para acessibilidade e suporte à decisão
-
-## 7) Requisitos funcionais
-
-A seguir, a arquitetura foi complementada com requisitos funcionais mínimos para evitar ambiguidades na implementação.
+A arquitetura foi complementada com requisitos funcionais para reduzir ambiguidades e tornar a solução mais implementável.
 
 - RF01: o usuário deve conseguir criar e editar seu perfil profissional e acadêmico.
 - RF02: o sistema deve permitir informar objetivos de carreira, disponibilidade e orçamento.
@@ -204,7 +188,7 @@ A seguir, a arquitetura foi complementada com requisitos funcionais mínimos par
 - RF09: um administrador deve conseguir cadastrar, revisar e atualizar cursos e regras de recomendação.
 - RF10: o sistema deve indicar claramente quando os dados são incompletos ou quando há baixa confiabilidade na recomendação.
 
-## 8) Requisitos não funcionais
+## 8. Requisitos não funcionais
 
 - RNF01: o sistema deve responder às recomendações em tempo útil para UX em web/mobile, preferencialmente em até alguns segundos em cenários típicos.
 - RNF02: a arquitetura deve permitir escala horizontal para aumentar volume de usuários, cursos e integrações.
@@ -215,9 +199,9 @@ A seguir, a arquitetura foi complementada com requisitos funcionais mínimos par
 - RNF07: a solução deve ser acessível e seguir critérios básicos de usabilidade para usuários com diferentes perfis e níveis de digitalização.
 - RNF08: a manutenção deve ser simples, com separação clara entre regras de negócio, integração de dados e experiência do usuário.
 
-## 9) Segurança, privacidade e conformidade
+## 9. Segurança, privacidade e conformidade
 
-A arquitetura também precisa tratar as exigências de segurança e privacidade para ser adequada a um sistema realista.
+A arquitetura também precisa tratar requisitos de segurança e privacidade para ser adequada a um sistema realista.
 
 - Autenticação: login com autenticação forte para usuários e administradores.
 - Autorização: roles distintas para aluno, administrador, analista e instituição parceira.
@@ -226,9 +210,9 @@ A arquitetura também precisa tratar as exigências de segurança e privacidade 
 - Auditoria: registro de acessos e alterações em regras e catálogos.
 - Minimização de dados: armazenar somente o necessário para recomendação e suporte à decisão.
 - Retenção: política definida para expurgo de dados não mais necessários.
-- Tratamento de vieses: os critérios de recomendação devem ser revisados para evitar discriminação ou favorecimento indevido.
+- Tratamento de vieses: critérios de recomendação devem ser revisados para evitar discriminação ou favorecimento indevido.
 
-## 10) Modelo de dados resumido
+## 10. Modelo de dados resumido
 
 A base de dados deve refletir as entidades principais que sustentam a recomendação.
 
@@ -308,7 +292,7 @@ erDiagram
     }
 ```
 
-## 11) Riscos e mitigação
+## 11. Riscos e mitigação
 
 - Dados incompletos: usar fallback e classificação de confiança da recomendação.
 - Mercado em mudança: atualizar indicadores com frequência e manter histórico de versões.
@@ -316,9 +300,9 @@ erDiagram
 - Falta de confiança do usuário: priorizar explicações e comparação entre alternativas.
 - Problemas de privacidade: aplicar minimização, consentimento e controles de acesso.
 
-## 12) Coerência entre artefatos
+## 12. Coerência entre artefatos
 
-A coerência documental foi verificada para garantir que cada artefato reforça a mesma visão arquitetural:
+A coerência documental foi validada para garantir que cada artefato reforça a mesma visão arquitetural:
 
 - O README descreve escopo, fluxo e diagramas da solução.
 - O arquivo AGENTS.md define diretrizes para que agentes de IA respeitem o limite de negócio e não ampliem indevidamente o sistema.
@@ -328,7 +312,7 @@ A coerência documental foi verificada para garantir que cada artefato reforça 
 
 Assim, a arquitetura permanece consistente entre visão de negócio, requisitos, segurança e implementação futura.
 
-## 13) Estrutura do repositório
+## 13. Estrutura do repositório
 
 Este repositório foi organizado para manter a documentação enxuta, profissional e útil como contexto para agentes de desenvolvimento.
 
@@ -340,7 +324,7 @@ Este repositório foi organizado para manter a documentação enxuta, profission
 - docs/security.md: segurança, privacidade e governança
 - .gitignore: ignora artefatos locais e temporários
 
-## 14) Resumo executivo
+## 14. Resumo executivo
 
 Essa documentação propõe uma solução de recomendação de cursos de especialização como um sistema de apoio à decisão, com foco em clareza, explicabilidade e alinhamento entre perfil e objetivo de carreira. O uso de diagramas em Mermaid permite versionar a arquitetura, revisar decisões e fornecer contexto útil para futuras implementações com IA.
 
