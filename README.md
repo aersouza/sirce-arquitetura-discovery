@@ -189,7 +189,17 @@ Para que um agente de desenvolvimento implementasse o sistema com aderência à 
 - arquitetura de integração com fontes de dados externas e indicadores de mercado
 - critérios de usabilidade para acessibilidade e suporte à decisão
 
-## 7) Resumo executivo
+## 7) Estrutura do repositório
+
+Este repositório foi organizado para manter a documentação enxuta, profissional e útil como contexto para agentes de desenvolvimento.
+
+- README.md: visão geral, escopo e diagramas da arquitetura
+- AGENTS.md: instruções rápidas para consumo por IA ou agentes
+- docs/architecture.md: visão resumida dos componentes e fluxos
+- docs/adr-001.md: decisão central de arquitetura sobre explicabilidade da recomendação
+- .gitignore: ignora artefatos locais e temporários
+
+## 8) Resumo executivo
 
 Essa documentação propõe uma solução de recomendação de cursos de especialização como um sistema de apoio à decisão, com foco em clareza, explicabilidade e alinhamento entre perfil e objetivo de carreira. O uso de diagramas em Mermaid permite versionar a arquitetura, revisar decisões e fornecer contexto útil para futuras implementações com IA.
 
