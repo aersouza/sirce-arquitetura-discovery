@@ -316,7 +316,19 @@ erDiagram
 - Falta de confiança do usuário: priorizar explicações e comparação entre alternativas.
 - Problemas de privacidade: aplicar minimização, consentimento e controles de acesso.
 
-## 12) Estrutura do repositório
+## 12) Coerência entre artefatos
+
+A coerência documental foi verificada para garantir que cada artefato reforça a mesma visão arquitetural:
+
+- O README descreve escopo, fluxo e diagramas da solução.
+- O arquivo AGENTS.md define diretrizes para que agentes de IA respeitem o limite de negócio e não ampliem indevidamente o sistema.
+- O documento de arquitetura detalha os blocos funcionais e o fluxo principal, alinhado ao diagrama estrutural do README.
+- O documento de requisitos traduz a proposta em funcionalidades e critérios observáveis.
+- O documento de segurança reforça as exigências de privacidade, autorização e auditoria que o sistema precisa ter para ser aceitável em uso real.
+
+Assim, a arquitetura permanece consistente entre visão de negócio, requisitos, segurança e implementação futura.
+
+## 13) Estrutura do repositório
 
 Este repositório foi organizado para manter a documentação enxuta, profissional e útil como contexto para agentes de desenvolvimento.
 
@@ -328,8 +340,10 @@ Este repositório foi organizado para manter a documentação enxuta, profission
 - docs/security.md: segurança, privacidade e governança
 - .gitignore: ignora artefatos locais e temporários
 
-## 13) Resumo executivo
+## 14) Resumo executivo
 
 Essa documentação propõe uma solução de recomendação de cursos de especialização como um sistema de apoio à decisão, com foco em clareza, explicabilidade e alinhamento entre perfil e objetivo de carreira. O uso de diagramas em Mermaid permite versionar a arquitetura, revisar decisões e fornecer contexto útil para futuras implementações com IA.
 
 Com a adição de requisitos funcionais, critérios de qualidade, segurança e modelo de dados, a arquitetura deixa de ser apenas um desenho conceitual e passa a ser uma base muito mais sólida para uma implementação real e para uso com agentes de desenvolvimento.
+
+A coerência final dos artefatos foi validada: o problema, a arquitetura, os requisitos e a segurança convergem para a mesma proposta e não contradizem o escopo do sistema.
