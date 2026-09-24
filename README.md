@@ -189,7 +189,134 @@ Para que um agente de desenvolvimento implementasse o sistema com aderência à 
 - arquitetura de integração com fontes de dados externas e indicadores de mercado
 - critérios de usabilidade para acessibilidade e suporte à decisão
 
-## 7) Estrutura do repositório
+## 7) Requisitos funcionais
+
+A seguir, a arquitetura foi complementada com requisitos funcionais mínimos para evitar ambiguidades na implementação.
+
+- RF01: o usuário deve conseguir criar e editar seu perfil profissional e acadêmico.
+- RF02: o sistema deve permitir informar objetivos de carreira, disponibilidade e orçamento.
+- RF03: o sistema deve consultar o catálogo de cursos e filtrar opções por modalidade, custo, duração e requisitos.
+- RF04: o sistema deve gerar uma recomendação ordenada por relevância com base em perfil, objetivos e mercado.
+- RF05: cada recomendação deve incluir justificativa em linguagem natural, com trade-offs e explicações de priorização.
+- RF06: o usuário deve poder comparar duas ou mais opções lado a lado.
+- RF07: o sistema deve permitir refinamento da recomendação após nova entrada do usuário.
+- RF08: o sistema deve registrar histórico de recomendações, aceitação e rejeição para melhorar o contexto futuro.
+- RF09: um administrador deve conseguir cadastrar, revisar e atualizar cursos e regras de recomendação.
+- RF10: o sistema deve indicar claramente quando os dados são incompletos ou quando há baixa confiabilidade na recomendação.
+
+## 8) Requisitos não funcionais
+
+- RNF01: o sistema deve responder às recomendações em tempo útil para UX em web/mobile, preferencialmente em até alguns segundos em cenários típicos.
+- RNF02: a arquitetura deve permitir escala horizontal para aumentar volume de usuários, cursos e integrações.
+- RNF03: as integrações com dados de mercado devem ser resilientes, com fallback e logs quando uma fonte externa falhar.
+- RNF04: os dados pessoais devem ser protegidos por políticas de acesso e armazenamento seguro.
+- RNF05: a recomendação deve ser explicável e auditável, permitindo rastrear critérios que influenciaram a priorização.
+- RNF06: o sistema deve manter a consistência do catálogo, evitando duplicidade de cursos e inconsistência de registros.
+- RNF07: a solução deve ser acessível e seguir critérios básicos de usabilidade para usuários com diferentes perfis e níveis de digitalização.
+- RNF08: a manutenção deve ser simples, com separação clara entre regras de negócio, integração de dados e experiência do usuário.
+
+## 9) Segurança, privacidade e conformidade
+
+A arquitetura também precisa tratar as exigências de segurança e privacidade para ser adequada a um sistema realista.
+
+- Autenticação: login com autenticação forte para usuários e administradores.
+- Autorização: roles distintas para aluno, administrador, analista e instituição parceira.
+- Proteção de dados: uso de criptografia em trânsito e em repouso para dados sensíveis.
+- Consentimento: coleta de consentimento explícito para uso e armazenamento de dados pessoais.
+- Auditoria: registro de acessos e alterações em regras e catálogos.
+- Minimização de dados: armazenar somente o necessário para recomendação e suporte à decisão.
+- Retenção: política definida para expurgo de dados não mais necessários.
+- Tratamento de vieses: os critérios de recomendação devem ser revisados para evitar discriminação ou favorecimento indevido.
+
+## 10) Modelo de dados resumido
+
+A base de dados deve refletir as entidades principais que sustentam a recomendação.
+
+```mermaid
+erDiagram
+    USUARIO ||--o{ PERFIL : possui
+    USUARIO ||--o{ RECOMENDACAO : recebe
+    USUARIO ||--o{ FAVORITO : salva
+    CURSO ||--o{ RECOMENDACAO_CURSO : aparece_em
+    CURSO ||--o{ CURSO_CATEGORIA : pertence
+    RECOMENDACAO ||--o{ RECOMENDACAO_CURSO : contem
+    ADMINISTRADOR ||--o{ CURSO : curadoria
+    ADMINISTRADOR ||--o{ REGRA_RECOMENDACAO : ajusta
+    MERCADO ||--o{ CURSO : influencia
+
+    USUARIO {
+        string id PK
+        string nome
+        string email
+        datetime criado_em
+    }
+
+    PERFIL {
+        string id PK
+        string usuario_id FK
+        string objetivo
+        string nivel_experiencia
+        decimal orçamento
+        string disponibilidade
+    }
+
+    CURSO {
+        string id PK
+        string nome
+        string instituicao
+        string modalidade
+        decimal custo
+        int duracao_meses
+        string nivel
+    }
+
+    RECOMENDACAO {
+        string id PK
+        string usuario_id FK
+        datetime criada_em
+        string status
+    }
+
+    RECOMENDACAO_CURSO {
+        string id PK
+        string recomendacao_id FK
+        string curso_id FK
+        decimal score
+        text justificativa
+    }
+
+    MERCADO {
+        string id PK
+        string area
+        decimal demanda
+        decimal salario_medio
+        datetime atualizado_em
+    }
+
+    ADMINISTRADOR {
+        string id PK
+        string nome
+        string email
+    }
+
+    REGRA_RECOMENDACAO {
+        string id PK
+        string administrador_id FK
+        string nome_regra
+        text descricao
+        decimal peso
+    }
+```
+
+## 11) Riscos e mitigação
+
+- Dados incompletos: usar fallback e classificação de confiança da recomendação.
+- Mercado em mudança: atualizar indicadores com frequência e manter histórico de versões.
+- Viés de recomendação: revisar pesos e critérios periodicamente.
+- Falta de confiança do usuário: priorizar explicações e comparação entre alternativas.
+- Problemas de privacidade: aplicar minimização, consentimento e controles de acesso.
+
+## 12) Estrutura do repositório
 
 Este repositório foi organizado para manter a documentação enxuta, profissional e útil como contexto para agentes de desenvolvimento.
 
@@ -197,10 +324,12 @@ Este repositório foi organizado para manter a documentação enxuta, profission
 - AGENTS.md: instruções rápidas para consumo por IA ou agentes
 - docs/architecture.md: visão resumida dos componentes e fluxos
 - docs/adr-001.md: decisão central de arquitetura sobre explicabilidade da recomendação
+- docs/requirements.md: requisitos funcionais e não funcionais
+- docs/security.md: segurança, privacidade e governança
 - .gitignore: ignora artefatos locais e temporários
 
-## 8) Resumo executivo
+## 13) Resumo executivo
 
 Essa documentação propõe uma solução de recomendação de cursos de especialização como um sistema de apoio à decisão, com foco em clareza, explicabilidade e alinhamento entre perfil e objetivo de carreira. O uso de diagramas em Mermaid permite versionar a arquitetura, revisar decisões e fornecer contexto útil para futuras implementações com IA.
 
-Este tipo de documentação é especialmente valioso para a construção de agentes de desenvolvimento porque reduz ambiguidades e evita que eles inventem regras de negócio que não foram acordadas.
+Com a adição de requisitos funcionais, critérios de qualidade, segurança e modelo de dados, a arquitetura deixa de ser apenas um desenho conceitual e passa a ser uma base muito mais sólida para uma implementação real e para uso com agentes de desenvolvimento.
